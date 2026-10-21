@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Penghitung Jari - Teachable Machine</title>
+
+  <!-- Font (opsional, ada cadangan font jika offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- File CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+
+    <header class="top">
+      <h1>Berapa jari yang kamu angkat?</h1>
+      <p>Nyalakan kamera, tunjukkan tanganmu, dan model akan menebak apakah itu 3 jari atau 5 jari.</p>
+    </header>
+
+    <div class="layout">
+
+      <!-- ====== KIRI: KAMERA ====== -->
+      <section class="stage" aria-label="Tampilan kamera">
+        <div class="viewport" id="viewport">
+          <div id="webcam-container"></div>
+
+          <!-- Tampil saat kamera belum menyala -->
+          <div class="placeholder" id="placeholder">
+            <span class="placeholder-icon" aria-hidden="true">🖐️</span>
+            <p id="status-text">Kamera belum menyala</p>
+          </div>
+
+          <!-- Lencana hasil di atas video -->
+          <div class="badge" id="badge" hidden>
+            <span id="badge-emoji">✋</span>
+            <span id="badge-label">-</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn primary" id="btn-start" type="button">Nyalakan kamera</button>
+          <button class="btn" id="btn-stop" type="button" disabled>Matikan</button>
+          <button class="btn" id="btn-switch" type="button" disabled>Ganti kamera</button>
+        </div>
+      </section>
+
+      <!-- ====== KANAN: HASIL & PENGATURAN ====== -->
+      <aside class="panel" aria-label="Hasil prediksi">
+
+        <div class="result" id="result" data-state="idle">
+          <div class="result-emoji" id="result-emoji" aria-hidden="true">✋</div>
+          <div class="result-text">
+            <div class="result-label" id="result-label">Menunggu kamera</div>
+            <div class="result-sub" id="result-sub">Hasil akan muncul di sini</div>
+          </div>
+        </div>
+
+        <h2>Tingkat keyakinan</h2>
+        <div id="label-container" class="bars"></div>
+
+        <h2>Pengaturan</h2>
+        <div class="setting">
+          <label for="threshold">
+            Ambang keyakinan
+            <output id="threshold-value">80%</output>
+          </label>
+          <input type="range" id="threshold" min="50" max="99" value="80" />
+          <small>Hasil baru dianggap pasti jika keyakinan melewati angka ini.</small>
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" id="mirror" checked />
+          <span class="switch-track"></span>
+          <span>Cermin (mirror) kamera</span>
+        </label>
+
+        <h2>Jumlah terdeteksi</h2>
+        <div class="counts" id="counts"></div>
+        <button class="btn small" id="btn-reset" type="button">Reset hitungan</button>
+      </aside>
+
+    </div>
+
+    <p class="footnote">Video diproses langsung di browsermu dan tidak dikirim ke server mana pun.</p>
+  </main>
+
+  <!-- Library TensorFlow.js & Teachable Machine (versi yang cocok dengan model dari Teachable Machine) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.3/dist/teachablemachine-image.min.js"></script>
+
+  <!-- File JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
